@@ -1,0 +1,30 @@
+FIBONACCI   LDA    a	    #load zero	 		 	#
+            SUB    lim	    #subtract lmc limit set at 499  	#
+            BRP    end    ##while accumulator stays negative	#
+			    ##allow to next lines		#
+		       	    ##when accumulator becomes 0 or 	#
+			    ##positive jump to reset loop	#
+								#
+	 			  				#
+            LDA    a    #print a  				#
+            OUT							#
+	    							#
+	    LDA    b	#c=a+b			  		#		
+            ADD    a					  	#
+            STO    c					  	#	
+								#
+	    LDA    b	#a=b				  	#
+            STO    a						#
+							  	#
+	    LDA    c	#b=c				  	#		
+            STO    b					  	#	
+            BR     FIBONACCI	
+
+end	HLT
+
+
+#VARIABLES
+a	DAT 0	
+lim	DAT 499
+b	DAT 1
+c	DAT 0

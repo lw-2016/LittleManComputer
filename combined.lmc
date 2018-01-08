@@ -1,0 +1,200 @@
+#################################################################
+#------------------[0]-COUNTDOWN--------------------------------#
+#------------------[1]-SQUARE-----------------------------------#
+#------------------[2]-FIBONACCI--------------------------------#
+#------------------[3]-TRIANGULAR NUMBERS-----------------------#
+#------------------[4]-DEC TO BIN-------------------------------#
+#------------------[5]-BIN TO DEC-------------------------------#
+#################################################################
+
+#############################MENU################################
+START	IN	#user commands 				  	#
+	BRZ	COUNTDOWN #0 ENTER [0] FOR COUNTDOWN     	#
+	SUB 	one	   	       			  	#
+	BRZ	SQUARE	  #1 ENTER [1] FOR SQUARE		#
+	SUB     one	   	        			#	
+	BRZ	FIBONACCI #2 ENTER [2] FOR TRIANGULAR NUMBERS 	#
+	SUB	one	   	       				#	
+	BRZ	TRIANG    #3 ENTER [3] FOR FIBONACCI SEQUENCE  	#	
+	SUB     one       	       				#
+	BRZ     DECTOBIN  #4 ENTER [4] FOR DECIMAL TO BINARY 	#
+	SUB	one       	       				#
+	BRZ     BINTODEC  #5 ENTER [5] FOR BINARY TO DECIMAL	#
+#################################################################
+
+#################COUNTDOWN#######################################
+COUNTDOWN    IN             #user input				#	
+CtdLoop	     OUT	    #display output    			#
+	     SUB    one	    #decrement --			#
+	     BRZ    Print   #go to Print to show additional zero#
+	     BR	    CtdLoop					#
+#################################################################
+
+#################SQUARE##########################################
+SQUARE	IN							#
+	#store user input in two  separate variables a and b	#
+	STO	a   #a will be added to final result b times    #
+	STO	b   #b will serve as a counter			#
+								#
+	  							#
+Sqloop    LDA	 res #add a to res b times and store it 	#
+	  ADD	 a						#	
+     	  STO	 res						#
+								#
+	  #counter how many times add a to obtain result	#
+          LDA    b  					        #	
+	  SUB	 one						#
+	  STO	 b						#
+	  BRZ	 Print	#if a becomes zero goto print function	#										
+	  BR	 Sqloop						#
+#################################################################
+
+#################FIBONACCI SEQUENCE##############################
+FIBONACCI   LDA    a	    #load zero	 		 	#
+            SUB    lim	    #subtract lmc limit set at 499  	#
+            BRP    RESET    ##while accumulator stays negative	#
+			    ##allow to next lines		#
+		       	    ##when accumulator becomes 0 or 	#
+			    ##positive jump to reset loop	#
+								#
+	 			  				#
+            LDA    a    #print a  				#
+            OUT							#
+	    							#
+	    LDA    b	#c=a+b			  		#		
+            ADD    a					  	#
+            STO    c					  	#	
+								#
+	    LDA    b	#a=b				  	#
+            STO    a						#
+							  	#
+	    LDA    c	#b=c				  	#		
+            STO    b					  	#	
+            BR     FIBONACCI					#
+#variable explanation: 						#
+#a,b fibonacci sequenece starting numbers 0,1 			#	
+#c temporary swapping value					#
+#################################################################
+
+#################TRIANGULAR NUMBERS##############################
+TRIANG	IN					  	        #
+LoopTr	STO     a       # store  user input			#
+								#
+	LDA	res     # load res initially set at zero	#
+	ADD	a	# add and user input			#
+	STO	res	# store  result				#
+					  			#
+	LDA	a	#obtain decreasing up to zero user input#					  	
+	SUB	one	#which will be added to res		#
+								#
+	BRZ	Print	#when a is zero jump to Print 	 	#
+	BR	LoopTr					 	#	
+#################################################################
+
+#################DECIMAL TO BINARY CONVERTER#####################
+DECTOBIN IN	    #user input			  		#				  	
+	 STO	res #store decimal user input to be converte	#	
+								#
+	 ##counter serves as method of obtaining		#
+	 ##partial division by two	     			#
+Modulo	 LDA	a        					#
+	 ADD 	one						#
+	 STO	a						#
+								#	
+	#divide decimal number by 2 				#			
+	 LDA	res       					#				
+	 SUB	two						#
+	 STO	res						#
+	 BRP	Modulo #while division part results are 0 	#	
+		       #or positive keep dividing 		#
+		       #else go to next ln			#
+							  	#
+	 ADD	two    #even numbers always -2, so -2 +2 = [0]	#	
+	 	       #odd numbers always -1, so  -1 +2 = [1] 	#
+	 OUT	       #display binary result			#	  	        
+								#
+  #take part result subtract one and store it in 		#
+  #res variable keep doing it until a becomes zero		#					
+	 LDA	a						#
+	 SUB 	one						#
+	 BRZ 	RESET 						#
+	 STO 	res						#
+  #reset counter to zero so the subdivision 			#
+  #in the next iteration can be done			 	#			
+	 LDA 	zero						#	
+	 STO 	a						#														  						#								  	#	
+	 BR	Modulo					 	#
+#################################################################
+
+#################BINARY TO DECIMAL CONVERTER#####################				
+							  	#
+BINTODEC  IN		#user input				#
+	  STO	a	#store binary user input to be converted# 				
+	  							#
+	  #decimal_result = decimal_result+user_input*2		#		        	   				  		  					
+	  LDA	res	# 0 					#
+	  ADD   a	# +user_input 				#	
+	  ADD   res	# *2					#
+	  STO   res     # = decimal_result			#
+							  	#	
+       	  LDA	capat9   #this counter limits user input to  	#
+	  SUB	one      #max 9 entries	2^9=512, 		#
+	  STO	capat9   #because display limit is  set at 499	#	
+			 #13 entries in range 500-512 		#
+			 #will be displayed incorrectly		#	
+	  							#
+								#
+	  BRZ	Print	  #when capat9 reaches zero go to Print	#
+	  BR    BINTODEC					#
+							  	#	
+			   					# 		
+							  	#  				  															
+	 							#
+#variable explanation:						#
+#a = user inputs binary number e.g, 101010			#
+#res = decimal result e.g, 42					#
+#capat9 =  user input is restricted to 9 binary digits	  	#	
+#################################################################
+
+##########COMMON PRINT()FUNCTION: SQUARE/TRIANG/BINTODEC#########
+Print	LDA	res	#load final result 		        #	
+	OUT		#display result				#
+	BR	RESET	#goto reset loop		  	#
+#################################################################
+
+#################COMMON RESET FUNCTION###########################
+RESET	LDA	zero	#reset variables below to 0		#	 	
+	STO	a						#
+	STO	res				  		#		
+	LDA	one	#reset variable below to 1		#
+	STO	b						#
+	LDA	cap     #reset variables below to 9 		#
+	STO	capat9					  	#	
+	BR	START	#go to start of the program	  	#
+#################################################################
+
+#################VARIABLES#######################################		
+#----------------SHARED REUSABLE APPLICATION VARIABLES----------#
+a	DAT 	0					  	#				  
+c	DAT	0					  	#
+res	DAT	0					        #											  
+two	DAT 	2						#
+					 		  	#
+#################SINGLE USE VARIABLES############################  						
+#----------------SPECIFIC TO BINTODEC---------------------------#
+capat9	DAT     9						#													
+#----------------SPECIFIC TO FIBONACCI SEQUENCE-----------------#
+b	DAT 	1						#
+lim	DAT     499				  		#		
+#----------------VARIABLES USED IN RESET LOOP-------------------#
+zero	DAT	0						#
+one	DAT	1 #this variable is used commonly in counters	#
+cap	DAT 	9						#
+#################################################################
+
+
+
+
+
+
+
