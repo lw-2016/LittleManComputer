@@ -1,9 +1,9 @@
 #################COUNTDOWN#############################################
-COUNTDOWN    IN             #user input			       #	
-CtdLoop      OUT	    #display output    		       #	
-	     SUB    one	    #decrement --		      #
+COUNTDOWN    IN             #user input			              #	
+CtdLoop      OUT	    #display output    		              #	
+	     SUB    one	    #decrement --		              #
 	     BRP    CtdLoop   #go to Print to show additional zero    #
-	     BR     COUNTDOWN					 #	
+	     BR     COUNTDOWN				       	      #	
 #######################################################################
 #VARIABLES
 one	DAT 	1
